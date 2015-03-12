@@ -16,13 +16,13 @@
 			// fireplace
 			st.addLine(new Dialogue("You have the goods, yes?", "Ruben", "fireplace"));
 			st.addLine(new Dialogue("Yeh, got 'em right here.", "Kara"));
-			st.addLine(new Dialogue("Excellent. Now get out of my sight.", "Ruben"));
+			st.addLine(new Dialogue("Excellent. Now get out of my sight.", "Ruben", "", "", [20, 40]));
 			
 			// woods
 			st.addLine(new Dialogue("Did I do the right thing, Robin?", "Kara", "woods"));
 			st.addLine(new Dialogue("I don't know, Kara. Only time will tell.", "Robin"));
 			
-			// error
+			// animate
 			st.addLine(new Dialogue("Hey, look. You can animate things.", "Alex", "animate"));
 			
 			// error
