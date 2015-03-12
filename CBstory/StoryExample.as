@@ -23,6 +23,9 @@
 			st.addLine(new Dialogue("I don't know, Kara. Only time will tell.", "Robin"));
 			
 			// error
+			st.addLine(new Dialogue("Hey, look. You can animate things.", "Alex", "animate"));
+			
+			// error
 			st.addLine(new Dialogue("This should error out because *SOMEBODY* didn't set up their images correctly!", "Alex", "doesntExist"));
 		}
 	}
