@@ -10,32 +10,31 @@
 
 	public class SoundManager
 	{
-		public var eng:MovieClip;									// a reference to the Engine
+		public static var eng:MovieClip;									// a reference to the Engine
 		
-		public var sndMap:Object = new Object();					// maps a String to a Sound
+		public static var sndMap:Object = new Object();					// maps a String to a Sound
 		
-		public var bgm:SoundChannel;								// the single background music
-		public var sndTF:SoundTransform = new SoundTransform();		// for fading the BGM out
+		public static var bgm:SoundChannel;								// the single background music
+		public static var sndTF:SoundTransform = new SoundTransform();		// for fading the BGM out
 		
 		// fading helpers
-		public var timer:Timer;
-		public var fade:int = 0;
-		public var maxFade:int = 1;
+		public static var timer:Timer;
+		public static var fade:int = 0;
+		public static var maxFade:int = 1;
 		
 		// holds any sounds that are set to loop
-		public var sndLoop:Object = new Object();
+		public static var sndLoop:Object = new Object();
 
 		public function SoundManager(_eng:MovieClip)
 		{
 			eng = _eng;
 			// -- add sound definitions here		
-			//sndMap["sfx_dest"] = new SFX_destroyer();
-				
-			//sndMap["BGM_Menu"] = new BGM_Menu();
+			sndMap["sfx_alert"] = new SFX_AlertWheeer();
+			sndMap["bgm_dr"] = new BGM_DR();
 		}
 		
 		// play the given sound effect numTimes, or once if not provided
-		public function playSound(s:String, numTimes:int = -1):void
+		public static function playSound(s:String, numTimes:int = -1):void
 		{
 			if (numTimes != -1)
 			{
@@ -46,7 +45,7 @@
 		}
 		
 		// play the specified background music at the given volume (or 100% if not provided)
-		public function playBGM(s:String, vol:Number = 1):void
+		public static function playBGM(s:String, vol:Number = 1):void
 		{
 			stopBGM();
 			bgm = sndMap[s].play(0, int.MAX_VALUE);				// loop forever
@@ -55,7 +54,7 @@
 		}
 		
 		// stop the background music
-		public function stopBGM():void
+		public static function stopBGM():void
 		{
 			if (bgm)
 			{
@@ -72,7 +71,7 @@
 		}
 		
 		// fade the background music out, duration in frames
-		public function fadeBGM(duration:int = 30):void
+		public static function fadeBGM(duration:int = 30):void
 		{
 			fade = maxFade = duration;
 			sndTF.volume = 1;
@@ -82,7 +81,7 @@
 		}
 		
 		// fade helper
-		private function tick(e:TimerEvent):void
+		private static function tick(e:TimerEvent):void
 		{
 			sndTF.volume = fade / maxFade;
 			if (bgm)
@@ -91,7 +90,7 @@
 				stopBGM();
 		}
 		
-		public function startLoop(s:String, numTimes:int = int.MAX_VALUE):SoundChannel
+		public static function startLoop(s:String, numTimes:int = int.MAX_VALUE):SoundChannel
 		{
 			if (!sndLoop[s])
 				sndLoop[s] = new SoundChannel();
@@ -99,14 +98,14 @@
 			return sndLoop[s];
 		}
 		
-		public function stopLoop(s:String):void
+		public static function stopLoop(s:String):void
 		{
 			if (!sndLoop[s]) return;
 			sndLoop[s].stop();
 			sndLoop[s] = null;
 		}
 		
-		public function shutUp():void
+		public static function shutUp():void
 		{
 			stopBGM();
 			SoundMixer.stopAll();

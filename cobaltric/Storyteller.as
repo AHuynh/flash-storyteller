@@ -17,7 +17,6 @@
 		private var stringTgt:String;			// full dialogue
 		
 		private var eng:MovieClip;				// the containing MovieClip, Engine
-		private var snd:SoundManager;			// initalized by Engine
 		
 		private var transitionLock:Boolean;		// if a transition is occurring, true and disables input
 		private var transition:int;				// counter for transitions
@@ -44,7 +43,6 @@
 			transitionState = 0;
 			
 			eng = MovieClip(parent);	// reference to Engine
-			snd = eng.soundMan;			// reference to SoundMan
 			stage.stageFocusRect = false;
 			stage.focus = this;
 			
@@ -80,16 +78,32 @@
 			
 			box.tName.text = diag.nam;	// set the name
 				
-			// handle SFX: add a + prefix to start a loop, and a - prefix to stop the loop
-			/*if (diag.sfx != "")
+			// handle sounds: 
+			// +bgm_XXXX		to stop previous BGM and play BGM XXXX
+			// -bgm				to stop all BGM
+			// XXXX				to play SFX XXXX once
+			// +XXXX			to start looping SFX XXXX
+			// -XXXX			to stop looping SFX XXXX
+			if (diag.snd != "")
 			{
-				if (diag.sfx.charAt(0) == '+')
-					snd.startLoop(diag.sfx.substring(1));
-				else if (diag.sfx.charAt(0) == '-')
-					snd.stopLoop(diag.sfx.substring(1));
+				if (diag.snd.substr(0, 4) == "-bgm")
+				{
+					SoundManager.stopBGM();
+				}
+				else if (diag.snd.substr(1, 3) == "bgm")
+				{
+					SoundManager.playBGM(diag.snd.substr(1));
+				}
 				else
-					snd.playSound(diag.sfx);
-			}*/
+				{
+					if (diag.snd.charAt(0) == '+')
+						SoundManager.startLoop(diag.snd.substring(1));
+					else if (diag.snd.charAt(0) == '-')
+						SoundManager.stopLoop(diag.snd.substring(1));
+					else
+						SoundManager.playSound(diag.snd);
+				}
+			}
 				
 			addEventListener(Event.ENTER_FRAME, updateText);
 			box.tText.text = "";
